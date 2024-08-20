@@ -44,6 +44,8 @@ export default function ProductDetailPage () {
 
     const [selectedSku, setSelectedSku] = useState(null);
     const [skuDetails, setSkuDetails] = useState({});
+    const [error, setError] = useState(null);
+
 
     useEffect(() => {
         if (product && product.skus.length > 0) {
@@ -63,7 +65,8 @@ export default function ProductDetailPage () {
                     console.log("response de skus", response.data)
                     newSkusDetails[sku.code] = response.data
                 } catch(error) {
-                    console.error(`Error fetching SKU ${sku.code} details:`, error);
+                    setError(error.message);
+                    window.alert(`Error fetching product details: ${error.message}`);
                 }
             }
             setSkuDetails(newSkusDetails);
@@ -95,21 +98,19 @@ export default function ProductDetailPage () {
                     <ArrowBackIcon />
                 </IconButton>
                 <Typography variant="h6">Detail</Typography>
-                <IconButton>
+                <IconButton onClick={() => window.alert('Menu options not implemented.')}>
                     <MoreVertIcon />
                 </IconButton>
             </Header>
             <Stack display={'flex'} justifyContent={'center'} alignItems={'center'}>
-            <ProductImage src={product.image} alt={product.brand} />
+                <ProductImage src={product.image} alt={product.brand} />
             </Stack>
-            
-
             <Stack display={"flex"} direction={'row'} justifyContent={'space-between'}>
-            <Typography variant="h5">{product.brand}</Typography>
-            <Price variant="h5">${(skuDetails[selectedSku].price / 100).toFixed(2)}</Price>
+                <Typography variant="h5">{product.brand}</Typography>
+                <Price variant="h5">${(skuDetails[selectedSku].price / 100).toFixed(2)}</Price>
             </Stack>
             <Stack mb={5} display={'flex'} justifyContent={"initial"} alignItems={'baseline'}>
-            <Typography variant="body1" color="textSecondary">
+                <Typography variant="body1" color="textSecondary">
                     Origin: {product.origin} | Stock: {skuDetails[selectedSku].stock}
                 </Typography>
             </Stack>
@@ -141,12 +142,14 @@ export default function ProductDetailPage () {
                 </Stack>
             </Stack>
             <Stack display={'flex'} direction={'row'} justifyContent={'space-between'}>
-            <img src={Bag} height={'54px'} width={'54px'}/>
-            <Button sx={{width:'80%', backgroundColor: "#FFA500", color:"white", borderRadius:'12px', }} variant="contained" >
-                Add to cart
-            </Button>
+                <img src={Bag} height={'54px'} width={'54px'}/>
+                <Button 
+                    sx={{width:'80%', backgroundColor: "#FFA500", color:"white", borderRadius:'12px', }} variant="contained"
+                    onClick={() => window.alert(`Add to cart not implemented. Product: ${product.brand}, Price: ${skuDetails[selectedSku].price}`)}
+                >
+                    Add to cart
+                </Button>
             </Stack>
-            
         </Container>
     </>
     )

@@ -24,11 +24,11 @@ export default function HeaderBar() {
   return (
     <Header position="static" >
       <Toolbar style={{display:'flex', justifyContent:'space-between'}}>
-        <IconButton edge="start" aria-label="menu">
+        <IconButton edge="start" aria-label="menu" onClick={() => window.alert('Menu options not implemented.')}>
           <MenuIcon />
         </IconButton>
         <UserInfo>
-          <Avatar alt="User" src={AvatarUser} />
+          <Avatar alt="User" src={AvatarUser} onClick={() => window.alert('User info not implemented.')} />
         </UserInfo>
       </Toolbar>
     </Header>
