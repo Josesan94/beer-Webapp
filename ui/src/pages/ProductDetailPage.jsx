@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, {useEffect, useState} from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useSWR from "swr";
 import { useFetch } from "../hooks/useFetch";
 import api from "../services/api";
 import styled from 'styled-components';
@@ -36,15 +37,20 @@ const Price = styled(Typography)`
   font-weight: bold;
 `;
 
+const fetcher = url => api.get(url).then(res => res.data)
+
 
 export default function ProductDetailPage () {
     const navigate = useNavigate()
     const {productId} = useParams()
+    const [selectedSku, setSelectedSku] = useState(null);
     const { data: product, isLoading: productLoading, error: productError } = useFetch(`/product/${productId}`);
 
-    const [selectedSku, setSelectedSku] = useState(null);
-    const [skuDetails, setSkuDetails] = useState({});
-    const [error, setError] = useState(null);
+    const { data: skuDetails, isLoading:skuLoading, error: skuError } = useSWR(
+        selectedSku ? `/stock-price/${selectedSku}` : null,
+        fetcher,
+        { refreshInterval: 1000 } // Refresh every 5 seconds
+      );
 
 
     useEffect(() => {
@@ -52,29 +58,6 @@ export default function ProductDetailPage () {
           setSelectedSku(product.skus[0].code); 
         }
       }, [product]);
-
-
-    useEffect(() => {
-    const fetchSkuDetails = async () => {
-        if(product && product.skus) {
-            const newSkusDetails = {};
-
-            for(const sku of product.skus) {
-                try {
-                    const response = await api.get(`/stock-price/${sku.code}`); 
-                    console.log("response de skus", response.data)
-                    newSkusDetails[sku.code] = response.data
-                } catch(error) {
-                    setError(error.message);
-                    window.alert(`Error fetching product details: ${error.message}`);
-                }
-            }
-            setSkuDetails(newSkusDetails);
-        };
-    }
-
-        fetchSkuDetails();
-    }, [selectedSku])
 
     const handleSizeChange = (sku) => {
         setSelectedSku(sku.code);
@@ -85,7 +68,7 @@ export default function ProductDetailPage () {
     }
 
 
-    if (productLoading || !selectedSku || !skuDetails[selectedSku]) {
+    if (productLoading || !selectedSku || skuLoading) {
         return <div>Loading...</div>;
       }
     if (productError) return <div>Error loading product details: {productError.message}</div>;
@@ -107,11 +90,11 @@ export default function ProductDetailPage () {
             </Stack>
             <Stack display={"flex"} direction={'row'} justifyContent={'space-between'}>
                 <Typography variant="h5">{product.brand}</Typography>
-                <Price variant="h5">${(skuDetails[selectedSku].price / 100).toFixed(2)}</Price>
-            </Stack>
+                ${ (skuDetails.price / 100).toFixed(2)}
+                </Stack>
             <Stack mb={5} display={'flex'} justifyContent={"initial"} alignItems={'baseline'}>
                 <Typography variant="body1" color="textSecondary">
-                    Origin: {product.origin} | Stock: {skuDetails[selectedSku].stock}
+                    Origin: {product.origin} | Stock: { skuDetails?.stock }
                 </Typography>
             </Stack>
             <Stack mb={5} display={'flex'} alignItems={'baseline'}>
@@ -145,7 +128,7 @@ export default function ProductDetailPage () {
                 <img src={Bag} height={'54px'} width={'54px'}/>
                 <Button 
                     sx={{width:'80%', backgroundColor: "#FFA500", color:"white", borderRadius:'12px', }} variant="contained"
-                    onClick={() => window.alert(`Add to cart not implemented. Product: ${product.brand}, Price: ${skuDetails[selectedSku].price}`)}
+                    onClick={() => window.alert(`Add to cart not implemented. Product: ${product.brand}, Price: ${skuDetails.price}`)}
                 >
                     Add to cart
                 </Button>
