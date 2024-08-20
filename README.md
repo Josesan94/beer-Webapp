@@ -13,7 +13,7 @@ npm (comes with Node.js)
 Project Setup Instructions
 1. Clone the Repository
 Clone this repository to your local machine using the following command:
-- git clone https://github.com/your-username/beer-ecommerce.git
+- git clone https://github.com/Josesan94/beer-Webapp.git
 
 2 Configure Environment Variables
 Create a .env file in the root of the project and add the necessary environment variables. You can use the .env.example file as a guide:
