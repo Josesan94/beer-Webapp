@@ -15,7 +15,7 @@ Project Setup Instructions
 Clone this repository to your local machine using the following command:
 - git clone https://github.com/Josesan94/beer-Webapp.git
 
-2 Configure Environment Variables
+2. Configure Environment Variables
 Create a .env file in the root of the project and add the necessary environment variables. You can use the .env.example file as a guide:
 
 3. Start Backend
@@ -40,19 +40,19 @@ This will open the application at http://localhost:5173.
 
 
 Features
-Product List: View a list of available beers.
-Product Details: Check the details and availability of each beer.
-Error Handling: Important errors are displayed to the user via window.alert().
-Unimplemented CTAs: Buttons and actions that are not implemented display a message to the user via window.alert().
+- Product List: View a list of available beers.
+- Product Details: Check the details and availability of each beer.
+- Error Handling: Important errors are displayed to the user via window.alert().
+- Unimplemented CTAs: Buttons and actions that are not implemented display a message to the user via window.alert().
 
 Technologies Used
-Frontend: JavaScript, React, Vite, Material-UI (MUI)
-Backend: JavaScript, Node.js, Express.js
-Styling: Styled-components, MUI
-Fonts: DM Sans (Google Fonts)
-Icons: Material-UI Icons
+- Frontend: JavaScript, React, Vite, Material-UI (MUI)
+- Backend: JavaScript, Node.js, Express.js
+- Styling: Styled-components, MUI
+- Fonts: DM Sans (Google Fonts)
+- Icons: Material-UI Icons
 
 Known Issues
-The "Add to cart" functionality and other related features (menu options) are not implemented and are indicated with window.alert().
+- The "Add to cart" functionality and other related features (menu options) are not implemented and are indicated with window.alert().
 
 
