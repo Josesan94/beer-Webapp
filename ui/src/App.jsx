@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProductListPage from './pages/ProductListPage'
 import { ThemeProvider } from '@mui/material';
@@ -15,9 +15,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
+          <Route path="/" element={<Navigate to="/products" replace />} />
           <Route path="/products" element={<ProductListPage/>}  />
           <Route  path="/product/:productId" element={<ProductDetailPage/>} /> 
-          <Route path="*" element={<p>Path not resolved</p>} />
+          <Route path="*" element={<p>Page not found</p>} />
         </Routes>
       </Router>
     </ThemeProvider>
