@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import productRoutes from'./routes/product.route.js';
 import stockPriceRoutes from'./routes/stockPrice.route.js';
+import getProductRoutes from './routes/getProduct.route.js'
 
 dotenv.config();
 const app = express()
@@ -14,7 +15,9 @@ app.use(express.json());
 
 //Routing
 app.use('/api/products', productRoutes);
+app.use('/api/product', getProductRoutes);
 app.use('/api/stock-price', stockPriceRoutes);
+
 
 // Puerto
 const PORT = process.env.PORT || 3000;

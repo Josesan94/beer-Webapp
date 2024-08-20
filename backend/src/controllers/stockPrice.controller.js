@@ -11,7 +11,7 @@ export const getStockPriceBySku = (req,res) => {
             return res.status(404).json({error: 'SKU not found'})
         }
     
-        res.json(variant)
+        res.status(200).json(variant)
     } catch(error) {
         console.error(`Error retrieving stock and price for SKU ${req.params.sku}:`, error);
         handleError(res, error, `Error retrieving stock and price for SKU ${req.params.sku}`);
